@@ -26,6 +26,11 @@ const schema = new mongoose.Schema(
       enum: ["patient", "doctor", "admin"], // Updated roles
       default: "patient",
     },
+    specialties: [{
+      type: String,
+      enum: specialtiesEnum, 
+      default: "none"
+  }],
     confirmEmail: {
       type: Boolean,
       default: false,
@@ -39,6 +44,9 @@ const schema = new mongoose.Schema(
       type: Date, 
     },
     passwordChangedAt: Date,
+
+    reviews:[],
+
     bookedAppointments: [],
 
     createdAppointments: [],
@@ -58,3 +66,40 @@ schema.pre("findOneAndUpdate", function () {
 });
 
 export const userModel = mongoose.model("user", schema);
+
+
+const specialtiesEnum = [
+  'dermatology',
+  'dentistry',
+  'psychiatry',
+  'pediatrics and new born',
+  'neurology',
+  'orthopedics',
+  'gynaecology and infertility',
+  'ear, nose and throat',
+  'cardiology and vascular disease',
+  'internal medicine',
+  'allergy and immunology',
+  'andrology and male infertility',
+  'audiology',
+  'cardiology and thoracic surgery',
+  'chest and respiratory',
+  'diabetes and endocrinology',
+  'diagnostic radiology',
+  'dietitian and nutrition',
+  'family medicine',
+  'gastroenterology and endoscopy',
+  'geriatrics',
+  'hematology',
+  'hepatology',
+  'interventional radiology',
+  'ivf and infertility',
+  'laboratories',
+  'nephrology',
+  'neurosurgery',
+  'obesity and laparoscopic surgery',
+  'oncology',
+  'oncology surgery',
+  'ophthalmology',
+  'none'
+];
