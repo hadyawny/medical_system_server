@@ -1,73 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-const schema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      trim: true,
-      required: true,
-    },
-    email: {
-      type: String,
-      unique: true,
-      trim: true,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    mobileNumber: {
-      type: String,
-    },
-    role: {
-      type: String,
-      enum: ["patient", "doctor", "admin"], // Updated roles
-      default: "patient",
-    },
-    specialties: [{
-      type: String,
-      enum: specialtiesEnum, 
-      default: "none"
-  }],
-    confirmEmail: {
-      type: Boolean,
-      default: false,
-    },
-
-    otp: {
-      type: String,
-      trim: true,
-    },
-    otpExpires: {
-      type: Date, 
-    },
-    passwordChangedAt: Date,
-
-    reviews:[],
-
-    bookedAppointments: [],
-
-    createdAppointments: [],
-
-    medicalRecords: [],
-  },
-  { timestamps: true }
-);
-
-schema.pre("save", function () {
-  this.password = bcrypt.hashSync(this.password, 8);
-});
-
-schema.pre("findOneAndUpdate", function () {
-  if (this._update.password)
-    this._update.password = bcrypt.hashSync(this._update.password, 8);
-});
-
-export const userModel = mongoose.model("user", schema);
-
-
 const specialtiesEnum = [
   'dermatology',
   'dentistry',
@@ -103,3 +36,80 @@ const specialtiesEnum = [
   'ophthalmology',
   'none'
 ];
+
+
+
+const schema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      trim: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    mobileNumber: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ["patient", "doctor", "admin"], // Updated roles
+      default: "patient",
+    },
+    specialties: {
+      type: String,
+      enum: specialtiesEnum, 
+      default: "none"
+  },
+    confirmEmail: {
+      type: Boolean,
+      default: false,
+    },
+    verifiedDoctor: {
+      type: String,
+      enum: ["false", "pending", "true"], // Updated roles
+      default: "false",
+    },
+    otp: {
+      type: String,
+      trim: true,
+    },
+    otpExpires: {
+      type: Date, 
+    },
+    passwordChangedAt: Date,
+
+    reviewsReceived:[{ type: mongoose.Types.ObjectId, ref: "review" }],
+    reviewsWritten:[{ type: mongoose.Types.ObjectId, ref: "review" }],
+
+
+    bookedAppointments: [],
+
+    createdAppointments: [],
+
+    medicalRecords: [],
+  },
+  { timestamps: true }
+);
+
+schema.pre("save", function () {
+  this.password = bcrypt.hashSync(this.password, 8);
+});
+
+schema.pre("findOneAndUpdate", function () {
+  if (this._update.password)
+    this._update.password = bcrypt.hashSync(this._update.password, 8);
+});
+
+export const userModel = mongoose.model("user", schema);
+
+
+

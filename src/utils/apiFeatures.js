@@ -44,12 +44,8 @@ export class ApiFeatures {
       this.mongooseQuery.find({
         $or: [
           { name: { $regex: this.searchQuery.keyword } },
-          { email: { $regex: this.searchQuery.keyword } },
-          { title: { $regex: this.searchQuery.keyword } },
-          { details: { $regex: this.searchQuery.keyword } },
-          { category: { $regex: this.searchQuery.keyword } },
-          { location: { $regex: this.searchQuery.keyword } },
-          { company: { $regex: this.searchQuery.keyword } },
+          { specialties: { $regex: this.searchQuery.keyword } },
+
 
         ],
       });
