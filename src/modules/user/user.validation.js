@@ -16,11 +16,7 @@ const paramsIdVal = Joi.object({
 
 const updateUserVal = Joi.object({
   name: Joi.string().min(2).max(30),
-  email: Joi.string().email(),
   mobileNumber: Joi.string().min(9).max(15),
-  bookedAppointments: Joi.array().items(Joi.string().hex().length(24)), // Appointments array for patients
-  createdAppointments: Joi.array().items(Joi.string().hex().length(24)), // Appointments array for doctors
-  medicalRecords: Joi.array().items(Joi.object()), // Placeholder for medical records array
 });
 
 export { addUserVal, paramsIdVal, updateUserVal };
