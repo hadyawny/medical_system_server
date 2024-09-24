@@ -2,42 +2,40 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const specialtiesEnum = [
-  'dermatology',
-  'dentistry',
-  'psychiatry',
-  'pediatrics and new born',
-  'neurology',
-  'orthopedics',
-  'gynaecology and infertility',
-  'ear, nose and throat',
-  'cardiology and vascular disease',
-  'internal medicine',
-  'allergy and immunology',
-  'andrology and male infertility',
-  'audiology',
-  'cardiology and thoracic surgery',
-  'chest and respiratory',
-  'diabetes and endocrinology',
-  'diagnostic radiology',
-  'dietitian and nutrition',
-  'family medicine',
-  'gastroenterology and endoscopy',
-  'geriatrics',
-  'hematology',
-  'hepatology',
-  'interventional radiology',
-  'ivf and infertility',
-  'laboratories',
-  'nephrology',
-  'neurosurgery',
-  'obesity and laparoscopic surgery',
-  'oncology',
-  'oncology surgery',
-  'ophthalmology',
-  'none'
+  "dermatology",
+  "dentistry",
+  "psychiatry",
+  "pediatrics and new born",
+  "neurology",
+  "orthopedics",
+  "gynaecology and infertility",
+  "ear, nose and throat",
+  "cardiology and vascular disease",
+  "internal medicine",
+  "allergy and immunology",
+  "andrology and male infertility",
+  "audiology",
+  "cardiology and thoracic surgery",
+  "chest and respiratory",
+  "diabetes and endocrinology",
+  "diagnostic radiology",
+  "dietitian and nutrition",
+  "family medicine",
+  "gastroenterology and endoscopy",
+  "geriatrics",
+  "hematology",
+  "hepatology",
+  "interventional radiology",
+  "ivf and infertility",
+  "laboratories",
+  "nephrology",
+  "neurosurgery",
+  "obesity and laparoscopic surgery",
+  "oncology",
+  "oncology surgery",
+  "ophthalmology",
+  "none",
 ];
-
-
 
 const schema = new mongoose.Schema(
   {
@@ -64,11 +62,31 @@ const schema = new mongoose.Schema(
       enum: ["patient", "doctor", "admin"], // Updated roles
       default: "patient",
     },
-    specialties: {
+    drSpecialties: {
       type: String,
-      enum: specialtiesEnum, 
-      default: "none"
-  },
+      enum: specialtiesEnum,
+      default: "none",
+    },
+    drLocation: {
+      type: String,
+    },
+    drWorkingHours: {
+      type: [
+        {
+          day: String, // e.g., Monday, Tuesday
+          start: String, // e.g., 09:00
+          end: String, // e.g., 17:00
+        },
+      ],
+    },
+    drBio: {
+      type: String,
+    },
+    drSessionFees: {
+      type: Number,   // Assuming the fee is a number (currency)
+      min: 0          // The fee must be a non-negative number
+    },
+  
     confirmEmail: {
       type: Boolean,
       default: false,
@@ -83,13 +101,12 @@ const schema = new mongoose.Schema(
       trim: true,
     },
     otpExpires: {
-      type: Date, 
+      type: Date,
     },
     passwordChangedAt: Date,
 
-    reviewsReceived:[{ type: mongoose.Types.ObjectId, ref: "review" }],
-    reviewsWritten:[{ type: mongoose.Types.ObjectId, ref: "review" }],
-
+    reviewsReceived: [{ type: mongoose.Types.ObjectId, ref: "review" }],
+    reviewsWritten: [{ type: mongoose.Types.ObjectId, ref: "review" }],
 
     bookedAppointments: [],
 
@@ -110,6 +127,3 @@ schema.pre("findOneAndUpdate", function () {
 });
 
 export const userModel = mongoose.model("user", schema);
-
-
-
