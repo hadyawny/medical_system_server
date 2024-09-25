@@ -108,22 +108,25 @@ const schema = new mongoose.Schema(
     reviewsReceived: [{ type: mongoose.Types.ObjectId, ref: "review" }],
     reviewsWritten: [{ type: mongoose.Types.ObjectId, ref: "review" }],
 
-    bookedAppointments: [],
+    bookedAppointments: [{ type: mongoose.Types.ObjectId, ref: "appointment" }],
 
-    createdAppointments: [],
+    createdAppointments: [{ type: mongoose.Types.ObjectId, ref: "appointment" }],
 
     medicalRecords: [],
   },
   { timestamps: true }
 );
 
-schema.pre("save", function () {
+schema.pre("save", function (next) {
+  // If the password field is not modified, continue without re-hashing
+  if (!this.isModified("password")) return next();
+
+  // Hash the password with 8 salt rounds (or modify for higher rounds if desired)
   this.password = bcrypt.hashSync(this.password, 8);
+  
+  // Proceed with the next middleware or saving process
+  next();
 });
 
-schema.pre("findOneAndUpdate", function () {
-  if (this._update.password)
-    this._update.password = bcrypt.hashSync(this._update.password, 8);
-});
 
 export const userModel = mongoose.model("user", schema);
