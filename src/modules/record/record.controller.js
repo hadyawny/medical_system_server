@@ -1,14 +1,19 @@
 import { catchError } from "../../middleware/catchError.js";
-import { ethers } from 'ethers'
-import patientRecordFactoryABI from './../../../on-chain/artifacts/contracts/PatientRecordFactory.sol/PatientRecordFactory.json'
-import patientRecordABI from './../../../on-chain/artifacts/contracts/PatientRecord.sol/PatientRecord.json'
-import onChainConstants from '../../../on-chain/constants.js'
+import { ethers ,JsonRpcProvider} from 'ethers'
+import patientRecordFactoryABI from './../../../on-chain/artifacts/contracts/PatientRecordFactory.sol/PatientRecordFactory.json' assert { type: "json" }
+import patientRecordABI from './../../../on-chain/artifacts/contracts/PatientRecord.sol/PatientRecord.json' assert { type: "json" }
+import onChainConstants from '../../../on-chain/constants.js';
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_API_URL);
+const patientRecordFactoryABIArray = [patientRecordFactoryABI];
+
+
+const provider = new JsonRpcProvider(process.env.ALCHEMY_API_URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 const factoryContractAddress = onChainConstants.deployedContractAddress;
 
-const factoryContract = new ethers.Contract(factoryContractAddress, patientRecordFactoryABI, wallet);
+const factoryContract = new ethers.Contract(factoryContractAddress, patientRecordFactoryABIArray, wallet);
+
+
 
 
 async function getPatientRecordAddress(patientId) {
