@@ -46,6 +46,8 @@ export class ApiFeatures {
           { name: { $regex: this.searchQuery.keyword } },
           { specialties: { $regex: this.searchQuery.keyword } },
           { role: { $regex: this.searchQuery.keyword } },
+          { drSpecialties: { $regex: this.searchQuery.keyword } },
+
 
 
 
