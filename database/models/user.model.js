@@ -50,6 +50,13 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    profilePicture: {
+      type: String,
+      trim: true,
+    },
+    verifyingDocs:[{
+      type: String,
+    }],
     password: {
       type: String,
       required: true,
@@ -71,13 +78,7 @@ const schema = new mongoose.Schema(
       type: String,
     },
     drWorkingHours: {
-      type: [
-        {
-          day: String, // e.g., Monday, Tuesday
-          start: String, // e.g., 09:00
-          end: String, // e.g., 17:00
-        },
-      ],
+      type: String,
     },
     drBio: {
       type: String,
