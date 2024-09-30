@@ -22,7 +22,6 @@ const updateUser = catchError(async (req, res,next) => {
 const updateDrInfo = catchError(async (req, res, next) => {
   const { files } = req;
 
-  // Debug: Log incoming files
 
   // Initialize an object to hold URLs for verification documents
   const verifyingDocsUrls = [];
