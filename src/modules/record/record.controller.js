@@ -62,7 +62,7 @@ const addRecord = catchError(async (req, res, next) => {
       * Validate that this doctor has the right to add a record for this specific patient
       */
 
-    req.body.doctor = req.user._id;
+    req.body.doctorId = req.user._id;
 
     const { patientId, doctorId, appointmentDate, doctorNotes, diagnosis, prescriptions, followUpPlan } = req.body;
 
