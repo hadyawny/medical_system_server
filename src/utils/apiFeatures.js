@@ -17,18 +17,30 @@ export class ApiFeatures {
   filter() {
     let filterObj = { ...this.searchQuery };
     let excludedFields = ["page", "sort", "fields", "keyword"];
-
+  
+    // Exclude fields that are not meant for filtering
     excludedFields.forEach((val) => {
       delete filterObj[val];
     });
-
+  
+    // Stringify the filter object
     filterObj = JSON.stringify(filterObj);
-    filterObj = filterObj.replace(/(gt|gte|lt|lte)/g, (match) => "$" + match);
+  
+    // Ensure the replacement only happens for operators, not field names
+    filterObj = filterObj.replace(/\b(gt|gte|lt|lte)\b/g, (match) => "$" + match);
+  
+    // Parse the stringified filter object back into an object
     filterObj = JSON.parse(filterObj);
-
+  
+    // Debugging log to check the filter object
+    console.log("Constructed Filter Object: ", filterObj);
+  
+    // Apply the filter object to the Mongoose query
     this.mongooseQuery.find(filterObj);
     return this;
   }
+  
+  
 
   sort() {
     if (this.searchQuery.sort) {

@@ -72,7 +72,6 @@ const schema = new mongoose.Schema(
     drSpecialties: {
       type: String,
       enum: specialtiesEnum,
-      default: "none",
     },
     drLocation: {
       type: String,
