@@ -58,7 +58,19 @@ const updateDrInfo = catchError(async (req, res, next) => {
   }
 });
 
+const updateDrStatus = catchError(async (req, res,next) => {
 
+  let user = await userModel.findByIdAndUpdate(req.params.id, req.body,{new: true})
+  !user && res.status(404).json({ message: "user not found" });
+  user && res.json({ message: "success", user });
+})
+
+const adminDeleteUser = catchError(async (req, res,next) => {
+
+  let user = await userModel.findByIdAndDelete(req.params.id, req.body,{new: true})
+  !user && res.status(404).json({ message: "user not found" });
+  user && res.json({ message: "success", user });
+})
 
 const getAllUsers = getAllOne(userModel,['bookedAppointments', 'createdAppointments','reviewsReceived','reviewsWritten']);
 
@@ -72,4 +84,5 @@ const deleteUser = catchError(async (req, res,next) => {
 
 
 
-export { addUser ,getAllUsers , getSingleUser ,deleteUser,updateUser,updateDrInfo};
+export { addUser ,getAllUsers , getSingleUser ,deleteUser,updateUser,updateDrInfo,updateDrStatus,adminDeleteUser
+};

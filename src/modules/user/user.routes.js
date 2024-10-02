@@ -1,9 +1,9 @@
 import express from "express";
 import { validation } from "../../middleware/validation.js";
-import { addUser, deleteUser, getAllUsers, getSingleUser, updateDrInfo, updateUser } from "./user.controller.js";
-import { addUserVal, paramsIdVal, UpdateDrInfoVal, updateUserVal } from "./user.validation.js";
+import { addUser, adminDeleteUser, deleteUser, getAllUsers, getSingleUser, updateDrInfo, updateDrStatus, updateUser } from "./user.controller.js";
+import { addUserVal, paramsIdVal, UpdateDrInfoVal, updateDrStatusVal, updateUserVal } from "./user.validation.js";
 import { checkEmail } from "../../middleware/emailExist.js";
-import { protectedRoutes } from "../auth/auth.controller.js";
+import { allowedTo, protectedRoutes } from "../auth/auth.controller.js";
 import { uploadProfileAndDocs } from "../../services/pictureUpload/fileUploads.js";
 
 const userRouter = express.Router();
@@ -16,7 +16,11 @@ userRouter.route("/")
 
 userRouter.route("/drinfo")
 .put(protectedRoutes,uploadProfileAndDocs,validation(UpdateDrInfoVal),updateDrInfo)
-    
+
+userRouter.route("/admin/:id")
+.put(protectedRoutes,allowedTo("admin"),validation(updateDrStatusVal),updateDrStatus)
+.delete(protectedRoutes,allowedTo("admin"),validation(paramsIdVal),adminDeleteUser)
+
 
 userRouter.route("/:id")
 .get(validation(paramsIdVal),getSingleUser)

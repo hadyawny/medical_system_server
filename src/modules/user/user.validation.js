@@ -56,6 +56,13 @@ const updateUserVal = Joi.object({
   mobileNumber: Joi.string().min(9).max(15),
 });
 
+const updateDrStatusVal = Joi.object({
+  id: Joi.string().hex().length(24).required(),
+  verifiedDoctor: Joi.string().valid("false", "pending", "true").required(),
+});
+
+
+
 const UpdateDrInfoVal = Joi.object({
   drSpecialties: Joi.string()
     .valid(...specialtiesEnum)  // Validating against the enum
@@ -108,4 +115,4 @@ const UpdateDrInfoVal = Joi.object({
 
 
 
-export { addUserVal, paramsIdVal, updateUserVal,UpdateDrInfoVal };
+export { addUserVal, paramsIdVal, updateUserVal,UpdateDrInfoVal ,updateDrStatusVal };
