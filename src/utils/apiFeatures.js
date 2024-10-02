@@ -31,9 +31,7 @@ export class ApiFeatures {
   
     // Parse the stringified filter object back into an object
     filterObj = JSON.parse(filterObj);
-  
-    // Debugging log to check the filter object
-    console.log("Constructed Filter Object: ", filterObj);
+
   
     // Apply the filter object to the Mongoose query
     this.mongooseQuery.find(filterObj);
