@@ -92,7 +92,8 @@ const addRecord = catchError(async (req, res, next) => {
 
 const getRecords = catchError(async (req, res, next) => {
 
-    const userId = req.user._id;
+    const userId = req.user._id.toString();
+    console.log(userId)
     const recordAddress = getPatientRecordAddress(userId);
 
     const patientRecordContract = new ethers.Contract(recordAddress, patientRecordABI, wallet);

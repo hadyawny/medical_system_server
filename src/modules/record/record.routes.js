@@ -9,11 +9,7 @@ const recordRouter = express.Router();
 
 recordRouter.route("/")
     .post(protectedRoutes, validation(addRecordVal), addRecord)
-
-
-
-recordRouter.route("/:userId")
-    .get(getRecords)
+    .get(protectedRoutes, getRecords)
 
 
 
