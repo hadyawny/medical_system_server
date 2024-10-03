@@ -38,8 +38,8 @@
       ]
     },
     "/home/observeregy/0xMyFolders/ObserverEgy/ITI_Final/medical_system_server/on-chain/contracts/PatientRecordFactory.sol": {
-      "lastModificationDate": 1727440998496,
-      "contentHash": "a859cae19321200bd65a68cc0736b92c",
+      "lastModificationDate": 1727957449850,
+      "contentHash": "af49c0db63d80337844d85b7f1740a99",
       "sourceName": "contracts/PatientRecordFactory.sol",
       "solcConfig": {
         "version": "0.8.27",

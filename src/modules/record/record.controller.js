@@ -1,17 +1,23 @@
 import { catchError } from "../../middleware/catchError.js";
-import { ethers ,JsonRpcProvider} from 'ethers'
-import patientRecordFactoryABI from './../../../on-chain/artifacts/contracts/PatientRecordFactory.sol/PatientRecordFactory.json' assert { type: "json" }
-import patientRecordABI from './../../../on-chain/artifacts/contracts/PatientRecord.sol/PatientRecord.json' assert { type: "json" }
+import { ethers, JsonRpcProvider } from 'ethers'
 import onChainConstants from '../../../on-chain/constants.js';
+import fs from 'fs';
 
-const patientRecordFactoryABIArray = [patientRecordFactoryABI];
+const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
+
+
+
+const patientRecordFactoryABI = loadJSON('./../../../on-chain/artifacts/contracts/PatientRecordFactory.sol/PatientRecordFactory.json')
+const patientRecordABI = loadJSON('./../../../on-chain/artifacts/contracts/PatientRecord.sol/PatientRecord.json')
+
+
 
 
 const provider = new JsonRpcProvider(process.env.ALCHEMY_API_URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 const factoryContractAddress = onChainConstants.deployedContractAddress;
 
-const factoryContract = new ethers.Contract(factoryContractAddress, patientRecordFactoryABIArray, wallet);
+const factoryContract = new ethers.Contract(factoryContractAddress, patientRecordFactoryABI.abi, wallet);
 
 
 
@@ -19,6 +25,8 @@ const factoryContract = new ethers.Contract(factoryContractAddress, patientRecor
 async function getPatientRecordAddress(patientId) {
     // Get the patient's record contract address
     const recordAddress = await factoryContract.getPatientRecordAddress(patientId);
+
+
     console.log(`Patient record contract address for Patient ID ${patientId}:`, recordAddress); // Temp: clg for testing
 
     return recordAddress;
@@ -30,7 +38,7 @@ async function addRecordToPatient(patientId, recordData) {
     let recordAddress = await getPatientRecordAddress(patientId);
 
 
-    if (recordAddress === ethers.constants.AddressZero) {
+    if (recordAddress === ethers.ZeroAddress) {
         recordAddress = await factoryContract.createPatientRecord(patientId);
         await recordAddress.wait();
     }
@@ -85,7 +93,6 @@ const addRecord = catchError(async (req, res, next) => {
 const getRecords = catchError(async (req, res, next) => {
 
     const userId = req.user._id;
-
     const recordAddress = getPatientRecordAddress(userId);
 
     const patientRecordContract = new ethers.Contract(recordAddress, patientRecordABI, wallet);
