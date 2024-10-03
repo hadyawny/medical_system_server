@@ -23,6 +23,8 @@ contract PatientRecordFactory {
     function getPatientRecordAddress(
         string memory patientId
     ) public view returns (address) {
-        return patientRecords[patientId];
+        if (patientRecords[patientId] != address(0))
+            return patientRecords[patientId];
+        else return address(0x0);
     }
 }
