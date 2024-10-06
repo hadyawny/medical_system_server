@@ -52,6 +52,7 @@ const schema = new mongoose.Schema(
     profilePicture: {
       type: String,
       trim: true,
+      default:"https://res.cloudinary.com/doojp1zm6/image/upload/v1728238103/zuhwpqwwruhuuvzyp9w1.png",
     },
     verifyingDocs:[{
       type: String,

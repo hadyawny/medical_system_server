@@ -4,6 +4,9 @@ import { catchError } from "../../middleware/catchError.js";
 
 const addReview = catchError(async (req, res, next) => {
   req.body.patient = req.user._id;
+  req.body.name = req.user.name;
+  req.body.profilePicture = req.user.profilePicture;
+
   let review = new reviewModel(req.body); 
   await review.save();
 

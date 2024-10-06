@@ -2,33 +2,36 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
   {
-
-  description: {
+    profilePicture: {
       type: String,
       required: true,
-  },
-  stars: {
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    stars: {
       type: Number,
       required: true,
       min: 1,
-      max: 5
-  },
-  patient: {
+      max: 5,
+    },
+    patient: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',  // Assuming User model
+      ref: "user", // Assuming User model
       required: true,
-  },
-  doctor: {
+    },
+    doctor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',  // Assuming User model
+      ref: "user", // Assuming User model
       required: true,
-  },
-
+    },
   },
   { timestamps: true }
 );
 
-
-
 export const reviewModel = mongoose.model("review", schema);
-
