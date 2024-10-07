@@ -11,8 +11,10 @@ const addRecordVal = Joi.object({
     followUpPlan: Joi.string().required(),
 });
 
+const paramsIdVal = Joi.object({
+    id: Joi.string().hex().length(24).required(),
+  });
 
 
 
-
-export { addRecordVal };
+export { addRecordVal,paramsIdVal };

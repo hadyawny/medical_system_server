@@ -1,17 +1,17 @@
 import express from "express";
 import { validation } from "../../middleware/validation.js";
-import { protectedRoutes } from "../auth/auth.controller.js";
+import { allowedTo, protectedRoutes } from "../auth/auth.controller.js";
 
-import { addRecordVal } from "./record.validation.js";
+import { addRecordVal, paramsIdVal } from "./record.validation.js";
 import {  addRecord, getRecords } from "./records.js";
 
 const recordRouter = express.Router();
 
 recordRouter.route("/")
-    .post(protectedRoutes,addRecord)
+    .post(protectedRoutes,allowedTo("doctor"),validation(addRecordVal),addRecord)
 
 recordRouter.route("/:id")
-    .get(getRecords)
+    .get(protectedRoutes,allowedTo("doctor"),validation(paramsIdVal),getRecords)
 
 
 
