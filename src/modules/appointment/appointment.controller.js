@@ -1,6 +1,7 @@
 import { appointmentModel } from "../../../database/models/appointment.model.js";
 import { userModel } from "../../../database/models/user.model.js";
 import { catchError } from "../../middleware/catchError.js";
+import { getAllOne, getSingleOne } from "../handler/handlers.js";
 
 const createAppointment = catchError(async (req, res, next) => {
   req.body.doctor = req.user._id;
@@ -101,7 +102,9 @@ const deleteAppointment = catchError(async (req, res, next) => {
   });
 });
 
+const getAllUsersAppointments = getAllOne(appointmentModel,['patient', 'doctor']);
+
+const getSingleUserAppointment = getSingleOne(appointmentModel,['patient', 'doctor']);
 
 
-
-export { createAppointment ,bookAppointment ,updateAppointmentStatus,deleteAppointment};
+export { createAppointment ,bookAppointment ,updateAppointmentStatus,deleteAppointment,getSingleUserAppointment,getAllUsersAppointments};
