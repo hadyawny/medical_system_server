@@ -3,13 +3,15 @@ import { validation } from "../../middleware/validation.js";
 import { protectedRoutes } from "../auth/auth.controller.js";
 
 import { addRecordVal } from "./record.validation.js";
-import { addRecord, getRecords } from "./record.controller.js";
+import {  addRecord, getRecords } from "./records.js";
 
 const recordRouter = express.Router();
 
 recordRouter.route("/")
-    .post(protectedRoutes, validation(addRecordVal), addRecord)
-    .get(protectedRoutes, getRecords)
+    .post(protectedRoutes,addRecord)
+
+recordRouter.route("/:id")
+    .get(getRecords)
 
 
 
