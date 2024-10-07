@@ -112,7 +112,6 @@ const schema = new mongoose.Schema(
 
     createdAppointments: [{ type: mongoose.Types.ObjectId, ref: "appointment" }],
 
-    medicalRecords: [],
   },
   { timestamps: true }
 );
