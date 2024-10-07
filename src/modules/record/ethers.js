@@ -4,11 +4,6 @@ import { ethers } from 'ethers';
 const provider = new ethers.JsonRpcProvider('https://sepolia.infura.io/v3/d63e7449cad24519a71d580ede6024fb');
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-provider.getNetwork().then(network => {
-    console.log("Connected to network:", network);
-}).catch(error => {
-    console.error("Error connecting to network:", error);
-});
 
 
 // Define the contract ABI and address
