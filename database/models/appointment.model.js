@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["available", "booked", "done", "cancelled"],
+      enum: ["available", "booked", "done", "cancelled","doneAndReviewed"],
       default: "available",
     },
     patient: {

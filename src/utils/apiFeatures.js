@@ -57,6 +57,8 @@ export class ApiFeatures {
           { specialties: { $regex: this.searchQuery.keyword } },
           { role: { $regex: this.searchQuery.keyword } },
           { drSpecialties: { $regex: this.searchQuery.keyword } },
+          { email: { $regex: this.searchQuery.keyword } },
+
 
 
 
