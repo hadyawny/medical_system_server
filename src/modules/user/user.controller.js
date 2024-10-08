@@ -82,7 +82,27 @@ const deleteUser = catchError(async (req, res,next) => {
     user && res.json({ message: "success", user });
   });
 
+  const getUsersCountByRole = catchError(async (req, res,next) => {
+    // Count the number of users with the role "doctor"
+    const doctorCount = await userModel.countDocuments({ role: 'doctor' });
+
+    // Count the number of users with the role "admin"
+    const adminCount = await userModel.countDocuments({ role: 'admin' });
+
+    // Count the number of users with the role "patient"
+    const patientCount = await userModel.countDocuments({ role: 'patient' });
+
+    // Send the counts as a response
+    res.status(200).json({
+      success: true,
+      data: {
+        doctorCount,
+        adminCount,
+        patientCount
+      }
+    });
+  });
 
 
-export { addUser ,getAllUsers , getSingleUser ,deleteUser,updateUser,updateDrInfo,updateDrStatus,adminDeleteUser
+export { addUser ,getAllUsers , getSingleUser ,deleteUser,updateUser,updateDrInfo,updateDrStatus,adminDeleteUser ,getUsersCountByRole
 };

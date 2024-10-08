@@ -1,6 +1,6 @@
 import express from "express";
 import { validation } from "../../middleware/validation.js";
-import { addUser, adminDeleteUser, deleteUser, getAllUsers, getSingleUser, updateDrInfo, updateDrStatus, updateUser } from "./user.controller.js";
+import { addUser, adminDeleteUser, deleteUser, getAllUsers, getSingleUser, getUsersCountByRole, updateDrInfo, updateDrStatus, updateUser } from "./user.controller.js";
 import { addUserVal, paramsIdVal, UpdateDrInfoVal, updateDrStatusVal, updateUserVal } from "./user.validation.js";
 import { checkEmail } from "../../middleware/emailExist.js";
 import { allowedTo, protectedRoutes } from "../auth/auth.controller.js";
@@ -21,8 +21,14 @@ userRouter.route("/admin/:id")
 .put(protectedRoutes,allowedTo("admin"),validation(updateDrStatusVal),updateDrStatus)
 .delete(protectedRoutes,allowedTo("admin"),validation(paramsIdVal),adminDeleteUser)
 
+userRouter.route("/count")
+.get(getUsersCountByRole)
+
+
 
 userRouter.route("/:id")
 .get(validation(paramsIdVal),getSingleUser)
+
+
 
 export default userRouter;
