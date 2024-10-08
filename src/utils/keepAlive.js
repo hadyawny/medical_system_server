@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-export const keepAlive = (url, interval = 20 * 60 * 1000) => {
+export const keepAlive = (url, interval = 14 * 60 * 1000) => {
     const ping = () => {
         fetch(url)
             .then(res => res.text())
