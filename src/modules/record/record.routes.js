@@ -11,7 +11,7 @@ recordRouter.route("/")
     .post(protectedRoutes,allowedTo("doctor"),validation(addRecordVal),addRecord)
 
 recordRouter.route("/:id")
-    .get(protectedRoutes,allowedTo("doctor"),validation(paramsIdVal),getRecords)
+    .get(protectedRoutes,allowedTo("doctor","patient"),validation(paramsIdVal),getRecords)
 
 
 
