@@ -18,7 +18,7 @@ const paramsIdVal = Joi.object({
  const updateAppointmentStatusVal = Joi.object({
   id: Joi.string().hex().length(24).required(),
   status: Joi.string()
-    .valid("available", "booked", "done", "cancelled")
+    .valid("available", "booked", "done", "cancelled","doneAndReviewed")
     .required()
 });
 
