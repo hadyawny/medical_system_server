@@ -11,7 +11,7 @@ const userRouter = express.Router();
 userRouter.route("/")
 .post(validation(addUserVal),checkEmail,addUser)
 .get(getAllUsers)
-.put(protectedRoutes,validation(updateUserVal),updateUser)
+.put(protectedRoutes,uploadProfileAndDocs,validation(updateUserVal),updateUser)
 .delete(protectedRoutes,deleteUser)
 
 userRouter.route("/drinfo")

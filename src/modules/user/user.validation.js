@@ -51,7 +51,54 @@ const paramsIdVal = Joi.object({
 
 const updateUserVal = Joi.object({
   name: Joi.string().min(2).max(30),
-  mobileNumber: Joi.string().min(9).max(15),
+  drSpecialties: Joi.string()
+  .valid(...specialtiesEnum)  // Validating against the enum
+  .default("none")
+  .optional(),
+
+drLocation: Joi.string().optional(), // Location must be a non-empty string
+
+drWorkingHours: Joi.string().optional(), // Array of working hours
+
+drBio: Joi.string()
+  .max(1000)  // Assuming a max limit of 1000 characters for bio
+  .optional(),
+
+drSessionFees: Joi.number()
+  .min(0)  // Fee should be a non-negative number
+  .optional(),
+
+  profilePicture: Joi.array().items(
+    Joi.object({
+      fieldname: Joi.string().required(),
+      originalname: Joi.string().required(),
+      encoding: Joi.string().required(),
+      mimetype: Joi.string()
+        .valid("image/jpeg", "image/png", "image/jpg")
+        .required(), // Ensuring only valid image types
+      size: Joi.number().max(5242880).required(), // Max size of 5MB
+      destination: Joi.string().required(),
+      filename: Joi.string().required(),
+      path: Joi.string().required(), // Path of the uploaded file
+    })
+  ).optional(), // Marking it as optional, since it might not always be present
+
+
+verifyingDocs: Joi.array().items(
+  Joi.object({
+    fieldname: Joi.string().required(),
+    originalname: Joi.string().required(),
+    encoding: Joi.string().required(),
+    mimetype: Joi.string()
+      .valid("image/jpeg", "image/png", "image/jpg")
+      .required(), // Ensuring only valid image types
+    size: Joi.number().max(5242880).required(), // Max size of 5MB
+    destination: Joi.string().required(),
+    filename: Joi.string().required(),
+    path: Joi.string().required(), // Path of the uploaded file
+  })
+).optional(),
+
 });
 
 const updateDrStatusVal = Joi.object({

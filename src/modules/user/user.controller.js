@@ -12,10 +12,41 @@ const addUser = catchError(async (req, res,next) => {
   res.json({ message: "success" , user: {name: user.name , email: user.email} })
 })
 const updateUser = catchError(async (req, res,next) => {
+  const { files } = req;
 
-  let user = await userModel.findByIdAndUpdate(req.user._id, req.body,{new: true})
-  !user && res.status(404).json({ message: "user not found" });
-  user && res.json({ message: "success", user });
+
+  // Initialize an object to hold URLs for verification documents
+  const verifyingDocsUrls = [];
+
+  try {
+    // Upload profile picture to Cloudinary
+    if (files.profilePicture && files.profilePicture.length > 0) {
+      const profilePicResult = await cloudinary.uploader.upload(
+        files.profilePicture[0].path
+      );
+      req.body.profilePicture = profilePicResult.secure_url;
+    }
+
+    // Upload verifyingDocs to Cloudinary
+    if (files.verifyingDocs && files.verifyingDocs.length > 0) {
+      for (const file of files.verifyingDocs) {
+        const result = await cloudinary.uploader.upload(file.path);
+        verifyingDocsUrls.push(result.secure_url);  // Store the URL of each uploaded file
+      }
+      req.body.verifyingDocs = verifyingDocsUrls;  // Save all URLs in req.body
+    }
+
+
+    // Update user data in MongoDB
+    const user = await userModel.findByIdAndUpdate(req.user._id, req.body, { new: true });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.json({ message: "Success", user });
+  } catch (error) {
+    console.error("Error during upload or database update:", error);
+    res.status(500).json({ message: "An error occurred during the update." });
+  }
 })
 
 
